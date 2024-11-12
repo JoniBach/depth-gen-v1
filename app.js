@@ -101,14 +101,17 @@ async function generateDepthMapCanvas(image, estimator) {
   const depthImage = await depthMap.toCanvasImageSource();
   depthMapCtx.drawImage(depthImage, 0, 0, image.width, image.height);
 
-  // Invert the depth map
+  // Adjust the depth map to ensure the background is black
   const imageData = depthMapCtx.getImageData(0, 0, depthMapCanvas.width, depthMapCanvas.height);
   const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
-    // Invert the grayscale value
-    data[i] = 255 - data[i];     // Red channel
-    data[i + 1] = 255 - data[i + 1]; // Green channel
-    data[i + 2] = 255 - data[i + 2]; // Blue channel
+    // Set the background to black by ensuring farthest points are black
+    const grayscaleValue = data[i];
+    if (grayscaleValue === 255) {
+      data[i] = 0;     // Red channel
+      data[i + 1] = 0; // Green channel
+      data[i + 2] = 0; // Blue channel
+    }
   }
   depthMapCtx.putImageData(imageData, 0, 0);
 
@@ -255,7 +258,7 @@ function initializePaintingTools() {
 class ThreeDScene {
   constructor() {
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
-    this.renderer.setClearColor(0x000000, 0); // Transparent background
+    this.renderer.setClearColor(0x000000, 0); // Transparent background to ensure correct blending with original image // Transparent background
     this.scene = new THREE.Scene();
     this.camera = null;
     this.controls = null;
@@ -349,7 +352,7 @@ class ThreeDScene {
       displacementScale: 0.2, // Change displacement scale to positive to make face convex
       alphaMap: depthTexture,
       transparent: true,
-      depthWrite: false,
+      depthWrite: true, // Allow depth writing to fix the background issue
       side: THREE.DoubleSide,
     });
 
