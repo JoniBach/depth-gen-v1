@@ -106,11 +106,11 @@ async function generateDepthMapCanvas(image, estimator) {
   const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
     // Invert the grayscale value
- if (data[i] > 0) {
+//  if (data[i] > 0) {
   data[i] = 255 - data[i];     // Red channel
   data[i + 1] = 255 - data[i + 1]; // Green channel
   data[i + 2] = 255 - data[i + 2]; // Blue channel
-    }
+    // }
   }
   depthMapCtx.putImageData(imageData, 0, 0);
 
