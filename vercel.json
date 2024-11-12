@@ -1,7 +1,12 @@
 {
-    "build": {
-        "command": "vite build",
-        "outputDirectory": "dist",
-        "public": "public"
-    }
-}
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node",
+        "config": {
+          "buildCommand": "npm run build"
+        }
+      }
+    ]
+  }
+  
