@@ -346,7 +346,7 @@ class ThreeDScene {
     const material = new THREE.MeshStandardMaterial({
       map: texture,
       displacementMap: depthTexture,
-      displacementScale: -0.2,
+      displacementScale: 0.2, // Change displacement scale to positive to make face convex
       alphaMap: depthTexture,
       transparent: true,
       depthWrite: false,
@@ -363,7 +363,7 @@ class ThreeDScene {
    */
   updateDisplacementScale(scale) {
     if (this.mesh) {
-      this.mesh.material.displacementScale = -scale * 0.2;
+      this.mesh.material.displacementScale = scale * 0.2; // Change to positive scale
       this.mesh.material.needsUpdate = true;
     }
   }
