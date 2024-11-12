@@ -350,7 +350,7 @@ class ThreeDScene {
       displacementMap: depthTexture,
       displacementScale: 0.2, // Change displacement scale to positive to make face convex
       alphaMap: depthTexture,
-      transparent: true,
+      transparent: false,
       depthWrite: true, // Allow depth writing to fix the background issue
       side: THREE.DoubleSide,
     });
